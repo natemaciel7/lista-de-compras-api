@@ -24,3 +24,12 @@ app.post("/items", (req, res) => {
   shoppingList.push(newItem);
   res.status(201).json(newItem);
 });
+
+app.get("/items", (req, res) => {
+  const { type } = req.query;
+  if (type) {
+    const filteredItems = shoppingList.filter((item) => item.type === type);
+    return res.json(filteredItems);
+  }
+  res.json(shoppingList);
+});
