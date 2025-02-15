@@ -14,8 +14,11 @@ app.listen(PORT, () => {
 
 app.post("/items", (req, res) => {
   const { name, quantity, type } = req.body;
-  if (!name || !quantity || type)
+
+  if (!name || !quantity || !type) {
     return res.status(422).json({ error: "todos os campos são obrigatórios" });
+  }
+
   const itemExists = shoppingList.some((item) => item.name === name);
   if (itemExists) {
     return res.status(409).json({ error: "item já existe na lista" });
@@ -34,7 +37,7 @@ app.get("/items", (req, res) => {
   res.json(shoppingList);
 });
 
-app.get("/item/:id", (req, res) => {
+app.get("/items/:id", (req, res) => {
   const id = parseInt(req.params.id);
   if (isNaN(id) || id <= 0) {
     return res.status(400).json({ error: "ID inválido" });
