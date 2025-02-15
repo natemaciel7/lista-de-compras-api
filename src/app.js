@@ -33,3 +33,15 @@ app.get("/items", (req, res) => {
   }
   res.json(shoppingList);
 });
+
+app.get("/item/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  if (isNaN(id) || id <= 0) {
+    return res.status(400).json({ error: "ID inválido" });
+  }
+  const item = shoppingList.find((item) => item.id === id);
+  if (!item) {
+    return res.status(404).json({ error: "item não encontrado" });
+  }
+  res.json(item);
+});
